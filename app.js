@@ -14,7 +14,6 @@ const  connectDB  = require('./config/mongoDBS');
 var app = express();
 connectDB();
 
-
 // view engine setup
 app.use(cors({
   origin:"*"

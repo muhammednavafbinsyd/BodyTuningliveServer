@@ -30,7 +30,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 //signup/crud
-Router.post("/signup", UserToken, signupController.signupform);
+Router.post("/signup",signupController.signupform);
 Router.get("/getUsers", UserToken, signupController.Getusers);
 Router.post("/login", signupController.login);
 Router.delete("/userdeletion/:id", signupController.userDelete);
@@ -40,7 +40,6 @@ Router.put(
   upload.single("image"),
   signupController.updateprofile
 );
-
 //change password/Otp
 Router.post(
   "/changepassword/:id",
