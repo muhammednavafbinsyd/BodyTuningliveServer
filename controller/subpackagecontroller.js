@@ -198,25 +198,25 @@ function getTenDaysBefore(expirationDate) {
   tenDaysBefore.setDate(expirationDate.getDate() - 10); // Calculate 10 days before expiration date
   return tenDaysBefore;
 }
+
 exports.recectstatuscheking = asyncHandler(async (req, res) => {
   try {
     const mostRecentPurchase = await packageModel
       .findOne()
-      .sort({ createdAt: -1 });
-
+      .sort({ createdAt: -1 })
+      .exec()
     if (!mostRecentPurchase) {
       return res.status(404).send({ message: "No recent purchase found" });
     }
     const currentDate = new Date();
-    const status =
-      mostRecentPurchase.expiry_date < currentDate ? "expired" : "active";
-
-    res.json({ _id: mostRecentPurchase._id, status: status, packageId: _id });
+    const status = mostRecentPurchase.expiry_date < currentDate ? "expired" : "active";
+    res.json({status:status,});
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: "Internal server error" });
   }
 });
+
 exports.totalexpired = asyncHandler(async (req, res) => {
   try {
     const data = await packageModel.countDocuments({ status: "expired" });

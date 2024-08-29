@@ -66,7 +66,6 @@ exports.login = asyncHandler(async (req, res) => {
         username: userdata.username,
         email: userdata.email,
         phonenumber: userdata.phonenumber,
-        // password:userdata.password,
         location: userdata.location,
         city: userdata.city,
         pin: userdata.pin,
@@ -87,12 +86,9 @@ exports.login = asyncHandler(async (req, res) => {
 });
 exports.Getusers = asyncHandler(async (req, res) => {
   const subscription = req.query.subscribefilter || "";
-
   const page = parseInt(req.query.page);
   const pagesize = parseInt(req.query.limit);
-
   const skip = (page - 1) * pagesize;
-
   try {
     const query = {};
 
@@ -146,13 +142,6 @@ exports.updateprofile = expressAsyncHandler(async (req, res) => {
   const imagePath = req.file ? req.file.path : null;
 
   try {
-    const existinguser = await signupModel.findOne({ email });
-    if (existinguser) {
-      return res
-        .status(400)
-        .json({ invalid: true, message: "email already exists" });
-    }
-
     let toUpdate = await signupModel.findById(userId);
     if (imagePath) {
       toUpdate.images = imagePath;
